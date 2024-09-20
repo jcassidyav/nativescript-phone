@@ -1,7 +1,7 @@
 import { Frame } from '@nativescript/core';
 import { DialEvents, SMSEvents } from './interfaces';
 import { LocalEventEmitter } from './LocalEventEmitter';
-
+import { dataSerialize } from "@nativescript/core/utils";
 export { DialEvents, SMSEvents } from './interfaces';
 export const NSPhoneEventEmitter = new LocalEventEmitter();
 
@@ -81,7 +81,7 @@ export function dial(telNum, prompt) {
     const url = NSURL.URLWithString(sURL + telNum);
 
     if (UIApplication.sharedApplication.canOpenURL(url)) {
-      UIApplication.sharedApplication.openURL(url);
+      UIApplication.sharedApplication.openURLOptionsCompletionHandler(url, dataSerialize({}), null);
       NSPhoneEventEmitter.notify({
         eventName: DialEvents.SUCCESS
       });
